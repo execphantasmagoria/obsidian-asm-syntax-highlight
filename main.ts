@@ -1,7 +1,8 @@
 import './styles.scss'
-import { MarkdownView, Plugin } from 'obsidian'
+import { Plugin } from 'obsidian'
 
 import './mode/mlir/mlir'
+import * as CodeMirror from './lib/codemirror'
 
 export default class MLIRSyntaxHighlightPlugin extends Plugin {
 
@@ -28,6 +29,6 @@ export default class MLIRSyntaxHighlightPlugin extends Plugin {
 
   refreshLeaves = () => {
     // re-set the editor mode to refresh the syntax highlighting
-    this.app.workspace.iterateCodeMirrors(cm => cm.setOption("mode", cm.getOption("mode")))
+    this.app.workspace.iterateCodeMirrors((cm: any) => cm.setOption("mode", cm.getOption("mode")))
   }
 }

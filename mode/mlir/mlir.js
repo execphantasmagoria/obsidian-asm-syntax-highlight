@@ -14,10 +14,170 @@
     return set
   }
 
-  var keywords = wordSet(["module", "func"])
+  var keywords = wordSet([
+  "MOV", 
+  "LEA",
+  "LDS", 
+  "LES", 
+  "LFS", 
+  "LGS", 
+  "LSS",
+  "LXI", 
+  "INX", 
+  "DCX", 
+  "DAD", 
+  "LDAX", 
+  "PUSH", 
+  "POP",
+  "SHLD", 
+  "LHLD", 
+  "XCHG", 
+  "SPHL", 
+  "XTHL", 
+  "LDA", 
+  "PCHL", 
+  "ADD", 
+  "SUB", 
+  "ADC",
+  "SBB",
+  "ANA", 
+  "XRA", 
+  "ORA", 
+  "CMP", 
+  "INR", 
+  "DCR", 
+  "MVI",
+  "EI", 
+  "RRC", 
+  "CMA", 
+  "DI", 
+  "RLC", 
+  "STC", 
+  "RIM", 
+  "NOP", 
+  "RAR", 
+  "CMC", 
+  "SIM", 
+  "RAL", 
+  "DAA",
+  "ADI", 
+  "ACI", 
+  "SUI", 
+  "SBI", 
+  "ANI", 
+  "XRI", 
+  "ORI", 
+  "CPI",  
+  "INC", 
+  "DEC", 
+  "MUL", 
+  "IMUL", 
+  "DIV", 
+  "IDIV", 
+  "AND", 
+  "OR", 
+  "XOR", 
+  "NOT",
+  "TEST",
+  "SHL", 
+  "SHR", 
+  "SAL", 
+  "SAR", 
+  "ROL", 
+  "ROR", 
+  "RCL",
+  "RCR",
+  "MOVSB", 
+  "REPNZ", 
+  "MOVSW", 
+  "CMPSB", 
+  "CMPSW", 
+  "SCASB",
+  "SCASW", 
+  "LODSB", 
+  "LODSW",
+  "WAIT", 
+  "ESC",
+  "CLC", 
+  "CLD", 
+  "STD", 
+  "CLI", 
+  "STI"
+])
   var types = wordSet(["f32"])
-  var buildin = wordSet(["call"])
-  var rankedTypes = wordSet(["tensor", "memref"])
+  var buildin = wordSet([
+  "CALL", 
+  "RET",
+  "JMP", 
+  "JE", 
+  "JNE",
+  "JC", 
+  "JNC", 
+  "JZ", 
+  "JNZ", 
+  "JS", 
+  "JNS", 
+  "JO", 
+  "JNO",
+  "JG", 
+  "JL",
+  "INT", 
+  "IRET",
+  "HLT"
+  ])
+  var rankedTypes = wordSet([
+  "STAX",
+  "IN", 
+  "OUT",
+  "STA"
+  ])
+  // var registers = wordSet([
+  // "A", 
+  // "B",
+  // "C",
+  // "D",
+  // "E",
+  // "H",
+  // "L",
+  // "SP",
+  // "PC",
+  // "AX",
+  // "BX",
+  // "CX",
+  // "DX",
+  // "AH",
+  // "BH",
+  // "CH",
+  // "DH",
+  // "AL",
+  // "BL",
+  // "CL",
+  // "DL",
+  // "SI",
+  // "DI",
+  // "BP",
+  // "IP",
+  // "EAX",
+  // "EBX",
+  // "ECX",
+  // "EDX",
+  // "ESI",
+  // "EDI",
+  // "EBP",
+  // "ESP",
+  // "RAX",
+  // "RBX",
+  // "RCX",
+  // "RDX",
+  // "RSI",
+  // "RDI",
+  // "RBP",
+  // "RSP",
+  // ])
+
+  var suffixIdentifier = /([a-zA-Z$._-]|[_])([a-zA-Z$._-]|[0-9]|[_$.])*\:/
+
+
   var punc = ":;,.(){}[]<>"
   var hexadecimal = /^\-?0x[\dA-Fa-f][\dA-Fa-f_]*(?:(?:\.[\dA-Fa-f][\dA-Fa-f_]*)?[Pp]\-?\d[\d_]*)?/
   var decimal = /^\-?\d[\d_]*(?:\.\d[\d_]*)?(?:[Ee]\-?\d[\d_]*)?/
@@ -25,7 +185,7 @@
 
 
   var bareIdentifier = /([a-zA-Z$._-]|[_])([a-zA-Z$._-]|[0-9]|[_$.])*/
-  var suffixIdentifier = /([0-9]+|([a-zA-Z$._-][0-9a-zA-Z$._-]*))/
+  // var suffixIdentifier = /([0-9]+|([a-zA-Z$._-][0-9a-zA-Z$._-]*))/
 
   function tokenBase(stream, state, prev) {
     if (stream.sol()) state.indented = stream.indentation()
@@ -47,12 +207,8 @@
         return "variable"
       }
     }
-    if (ch == "@") {
-      stream.next()
-      if (stream.match(suffixIdentifier)) {
-        return "variable-2"
-      }
-    }
+    if (stream.match(suffixIdentifier)) return "variable-2"
+    
     if (punc.indexOf(ch) > -1) {
       stream.next()
       return "punctuation"

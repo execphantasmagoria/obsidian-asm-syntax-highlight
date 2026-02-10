@@ -275,7 +275,7 @@
     }
   }
 
-  CodeMirror.defineMode("mlir", function(config) {
+  CodeMirror.defineMode("asm", function(config) {
     return {
       startState: function() {
         return {
@@ -322,5 +322,5 @@
     }
   })
 
-  CodeMirror.defineMIME("text/x-mlir","mlir")
+  CodeMirror.defineMIME("text/x-asm","asm")
 });

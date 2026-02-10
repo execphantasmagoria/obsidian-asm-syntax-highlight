@@ -1,10 +1,10 @@
 import './styles.scss'
 import { Plugin } from 'obsidian'
 
-import './mode/mlir/mlir'
+import './mode/asm/asm'
 import * as CodeMirror from './lib/codemirror'
 
-export default class MLIRSyntaxHighlightPlugin extends Plugin {
+export default class ASMSyntaxHighlightPlugin extends Plugin {
 
   // these are the CodeMirror modes that Obsidian uses by default
   modesToKeep = ["hypermd", "markdown", "null", "xml"];

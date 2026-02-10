@@ -132,7 +132,6 @@
   "STA"
   ])
   // var registers = wordSet([
-  // "A", 
   // "B",
   // "C",
   // "D",
